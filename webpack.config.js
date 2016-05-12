@@ -1,5 +1,5 @@
 var path = require('path');
-var HtmlwebpackPlugin = require("html-webpack-plugin");
+var HtmlwebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, "app");
@@ -17,12 +17,9 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.css$/,
-				loaders: "style-loader!css-loader"
+				loader: ExtractTextPlugin.extract("style-loader","css-loader")
 			}
 		]
-	},
-	resolve: {
-		CSS: path.resolve(APP_PATH, "css/style.css")
 	},
 	plugins:[
 		new HtmlwebpackPlugin({

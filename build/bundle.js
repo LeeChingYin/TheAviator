@@ -44,8 +44,21 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../../CSS\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-	// console.log("Test");
+	__webpack_require__(1);
+
+	var reclac = function() {
+		var _html = document.documentElement,
+			clientWidth = document.documentElement.clientWidth;
+		_html.style.fontSize = 50 * (clientWidth / 320) + 'px';
+	};
+	reclac();
+	window.addEventListener('resize', reclac, false);
+
+/***/ },
+/* 1 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);
