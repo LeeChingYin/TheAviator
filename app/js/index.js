@@ -1,9 +1,27 @@
 require("../css/style.css");
 
-var reclac = function() {
-	var _html = document.documentElement,
-		clientWidth = document.documentElement.clientWidth;
-	_html.style.fontSize = 50 * (clientWidth / 320) + 'px';
+require("three");
+
+var Colors = {
+	red:0xf25346,
+	white:0xd8d0d1,
+	brown:0x59332e,
+	pink:0xF5986E,
+	brownDark:0x23190f,
+	blue:0x68c3c0
 };
-reclac();
-window.addEventListener('resize', reclac, false);
+
+window.addEventListener("load", init, false);
+
+function init(){
+	createScene();
+
+	createLights();
+
+	createPlane();
+	createSea();
+	createSky();
+
+	loop();
+
+}

@@ -1,13 +1,7 @@
-.test{
-	font-size: .2rem;
-}
-@media (min-width:768px) and (max-width:991px) {
-	.test{
-		font-size: .5rem;
-	}
-}
-@media (min-width:991px) {
-	.test{
-		font-size: .6rem;
-	}
+#world{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: linear-gradient(#e4e0ba, #f7d9aa);
 }
