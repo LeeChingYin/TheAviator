@@ -64,11 +64,13 @@
 
 		createLights();
 
-		// createPlane();
+		createPlane();
 		createSea();
 		createSky();
 
-		// loop();
+		document.addEventListener("mousemove", handleMouseMove, false);
+
+		loop();
 
 	}
 
@@ -112,6 +114,7 @@
 		container.appendChild(renderer.domElement);
 
 		window.addEventListener('resize', handleWindowResize, false);
+
 	}
 
 	function handleWindowResize() {
@@ -265,7 +268,90 @@
 		tailPlane.receiveShadow = true;
 		this.mesh.add(tailPlane);
 
+
+		var geomSideWing = new THREE.BoxGeometry(40,8,150,1,1,1);
+		var matSideWing = new THREE.MeshPhongMaterial({color:Colors.red, shading:THREE.FlatShading});
+		var sideWing = new THREE.Mesh(geomSideWing, matSideWing);
+		sideWing.castShadow = true;
+		sideWing.receiveShadow = true;
+		this.mesh.add(sideWing);
+
+		var geomPropeller = new THREE.BoxGeometry(20, 10, 10, 1, 1, 1);
+		var matPropeller = new THREE.MeshPhongMaterial({color:Colors.brown, shading:THREE.FlatShading});
+		this.propeller = new THREE.Mesh(geomPropeller, matPropeller);
+		this.propeller.castShadow = true;
+		this.propeller.receiveShadow = true;
+
+		var geomBlade = new THREE.BoxGeometry(1, 100, 20, 1, 1, 1);
+		var matBlade = new THREE.MeshPhongMaterial({color:Colors.brownDark, shading:THREE.FlatShading});
+
+
+		var blade = new THREE.Mesh(geomBlade, matBlade);
+		blade.position.set(8, 0, 0);
+		blade.castShadow = true;
+		blade.receiveShadow = true;
+		this.propeller.add(blade);
+		this.propeller.position.set(50, 0, 0);
+		this.mesh.add(this.propeller);
+
+	};
+
+	var airplane;
+	function createPlane(){
+		airplane = new AirPlane();
+		airplane.mesh.scale.set(.25, .25, .25);
+		airplane.mesh.position.y = 100;
+		scene.add(airplane.mesh);
 	}
+
+
+	function loop(){
+		// airplane.propeller.rotation.x += .3;
+		sea.mesh.rotation.z += .005;
+		sky.mesh.rotation.z += .01;
+
+		updatePlane();
+
+		renderer.render(scene, camera);
+
+		requestAnimationFrame(loop);
+	}
+
+	var mousePos = {x:0, y:0};
+	function handleMouseMove(event){
+		var tx = -1 + (event.clientX / WIDTH)*2;
+		var ty = 1 - (event.clientY / HEIGHT)*2;
+		mousePos = {x:tx, y:ty};
+	}
+
+	function updatePlane(){
+		var targetX = normalize(mousePos.x, -1, 1, -100, 100);
+		var targetY = normalize(mousePos.y, -1, 1, 25, 175);
+
+		airplane.mesh.position.y = targetY;
+		airplane.mesh.position.x = targetX;
+		airplane.propeller.rotation.x += 0.3;
+	}
+
+	function normalize(v, vmin, vmax, tmin, tmax){
+		var nv = Math.max(Math.min(v, vmax), vmin);
+		var dv = vmax - vmin;
+		var pc = (nv-vmin)/dv;
+		var dt = tmax-tmin;
+		var tv = tmin + (pc*dt);
+		return tv;
+	}
+
+
+
+
+
+
+
+
+
+
+
 
 /***/ },
 /* 1 */

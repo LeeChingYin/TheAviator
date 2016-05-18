@@ -199,8 +199,17 @@ function createSky(){
 var AirPlane = function(){
 	this.mesh = new THREE.Object3D();
 
-	var geomCockpit = new THREE.BoxGeometry(60, 50, 50, 1, 1, 1);
+	var geomCockpit = new THREE.BoxGeometry(80, 50, 50, 1, 1, 1);
 	var matCockpit = new THREE.MeshPhongMaterial({color:Colors.red, shading:THREE.FlatShading});
+	geomCockpit.vertices[4].y -= 10;
+	geomCockpit.vertices[4].z += 20;
+	geomCockpit.vertices[5].y -= 10;
+	geomCockpit.vertices[5].z -= 20;
+	geomCockpit.vertices[6].y += 30;
+	geomCockpit.vertices[6].z += 20;
+	geomCockpit.vertices[7].y += 30;
+	geomCockpit.vertices[7].z -= 20;
+
 	var cockpit = new THREE.Mesh(geomCockpit, matCockpit);
 	cockpit.castShadow = true;
 	cockpit.receiveShadow = true;
@@ -296,6 +305,116 @@ function normalize(v, vmin, vmax, tmin, tmax){
 	return tv;
 }
 
+var Pilot = function(){
+	this.mesh = new THREE.Object3D();
+	this.mesh.name = "pilot";
+
+	this.angleHairs = 0;
+
+	var bodyGeom = new THREE.BoxGeometry(15,15,15);
+	var bodyMat = new THREE.MeshPhongMaterial({color:Colors.brown, shading:THREE.FlatShading});
+	var body = new THREE.Mesh(bodyGeom, bodyMat);
+	body.position.set(2, -12, 0);
+	this.mesh.add(body);
+
+	var faceGeom = new THREE.BoxGeometry(10, 10, 10);
+	var faceMat = new THREE.MeshLamberMaterial({color:Colors.pink});
+	var face = new THREE.Mesh(faceGeom, faceMat);
+	this.mesh.add(face);
+
+	var hairGeom = new THREE.BoxGeometry(4,4,4);
+	var hairMat = new THREE.MeshLamberMaterial({color:Colors.brown});
+	var hair = new THREE.Mesh(hairGeom, hairMat);
+
+	hair.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,2,0));
+
+	var hairs = new THREE.Object3D();
+
+	this.hairsTop = new THREE.Object3D();
+
+	for(var i=0; i<12; i++){
+		var h = hair.clone();
+		var col = i % 3;
+		var row = Math.floor(i/3);
+		var startPosZ = -4;
+		var startPosX = -4;
+		h.position.set(startPosX + row*4, 0, startPosZ + col*4);
+		this.hairsTop.add(h);
+	}
+	hairs.add(this.hairsTop);
+
+	var hairSideGeom = new THREE.BoxGeometry(12, 4, 2);
+	hairSideGeom.applyMatrix(new THREE.Matrix4().makeTranslation(-6,0,0));
+	var hairSideR = new THREE.Mesh(hairSideGeom, hairMat);
+	var hairSideL = hairSideR.clone();
+	hairSideR.position.set(8, -2, 6);
+	hairSideL.position.set(8, -2, -6);
+	hairs.add(hairSideR);
+	hairs.add(hairSideL);
+
+	var hairBackGeom = new THREE.BoxGeometry(2,8,10);
+	var hairBack = new THREE.Mesh(hairBackGeom,hairMat);
+	hairBack.position.set(-1, -4, 0);
+	hairs.add(hairBack);
+	hairs.position.set(-5, 5, 0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
 
 
